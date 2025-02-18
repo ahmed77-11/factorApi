@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="personne_morale" ,uniqueConstraints = @UniqueConstraint(columnNames = {"numero_piece_identite","type_piece_identite"}))
+@Table(name="yPm" ,uniqueConstraints = @UniqueConstraint(columnNames = {"yPmPieceIdentNum","xTypePieceIdentIdFk"}))
 public class PersonneMorale   {
 
     @Id
@@ -24,108 +24,120 @@ public class PersonneMorale   {
 
     /* PIECE IDENTITE */
     @ManyToOne
-    @JoinColumn(name = "type_piece_identite", nullable = false)
+    @JoinColumn(name = "xTypePieceIdentIdFk", nullable = false)
     private TypePieceId TypePieceIdentite;
 
-    @Column(name = "numero_piece_identite")
+    @Column(name = "yPmPieceIdentNum")
     private String numeroPieceIdentite;
 
-    @Column(nullable = true)
+    @Column(name = "yPmPieceIdentDelivDate",nullable = true)
     private Date pieceIdentiteDelivDate;
 
-    @Column(nullable = true)
+    @Column(name="yPmPieceIdentDelivLieu",nullable = true)
     private String pieceIdentiteDelivLieu;
 
-    @Column(nullable = true)
+    @Column(name="yPmPieceIdentAutorite",nullable = true)
     private String pieceIdentiteAutorite;
 
-    @Column(nullable = true)
+    @Column(name="yPmPieceIdentExripeDate",nullable = true)
     private Date pieceIdentiteExpireDate;
 
     /*  JURIDIQUE */
+    @Column(name="yPmRaisonSociale",nullable = false)
     private String raisonSocial;
+
+    @Column(name="yPmSigle",nullable = false)
     private String sigle;
 
-    @Column(nullable = true)
+    @Column(name="yPmMatriculeFiscal",nullable = true)
     private String matriculeFiscal;
 
-    @Column(nullable = true)
+    @Column(name="yPpCreationDate",nullable = true)
     private Date ppCreationDate;
 
-    @Column(nullable = true)
+    @Column(name="yPpCreationLieu",nullable = true)
     private String ppCreationLieu;
 
     @ManyToOne
-    @JoinColumn(name = "nationalite", nullable = true)
+    @JoinColumn(name = "xNationaliteIdFk", nullable = true)
     private Nationalite nationalite;
 
     @ManyToOne
-    @JoinColumn(name = "forme_juridique", nullable = true)
+    @JoinColumn(name = "xFormeJuridiqueIdFk", nullable = true)
     private FormeJuridique formeJuridique;
 
     @ManyToOne
-    @JoinColumn(name = "activite", nullable = true)
+    @JoinColumn(name = "xActiviteIdFk", nullable = true)
     private Activite activite;
 
     /* general Information */
+    @Column(name = "yPmAdresse", nullable = false)
     private String adresse;
+
+    @Column(name = "yPmVille", nullable = false)
     private String ville;
-    private String siteWeb;
+
+    @Column(name = "yPmSiteWeb", nullable = true)
+    private String siteWeb ;
+
+    @Column(name = "yPmEmail", nullable = false)
     private String email;
+
+    @Column(name = "yPmTelNo", nullable = false)
     private String telNo;
 
-    @Column(nullable = true)
+    @Column(name="yPmBoolCommerce",nullable = true)
     private boolean commerce;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolTun",nullable = true)
     private boolean ppTun;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolResident",nullable = true)
     private boolean ppResident;
 
-    @Column(nullable = true)
+    @Column(name="yPmBoolAssureur",nullable = true)
     private boolean assureur;
 
     @ManyToOne
-    @JoinColumn(name = "groupe", nullable = true)
+    @JoinColumn(name = "xGroupeIdFk", nullable = true)
     private Groupe groupe;
 
     @ManyToOne
-    @JoinColumn(name = "type_pm", nullable = true)
+    @JoinColumn(name = "xTypePmIdFk", nullable = true)
     private TypePersonneMorale typePm;
 
     @ManyToOne
-    @JoinColumn(name = "situation_judiciaire", nullable = true)
+    @JoinColumn(name = "xSituationJudiciaireIdFk", nullable = true)
     private SituationJudiciaire situationJudiciaire;
 
-    @Column(nullable = true)
+    @Column(name="yPmPub",nullable = true)
     private boolean pub;
 
-    @Column(nullable = true)
+    @Column(name="yPmBoolExemptTva",nullable = true)
     private boolean exemptTva;
 
-    @Column(nullable = true)
+    @Column(name="yPmExemptTvaDateDeb",nullable = true)
     private Date exemptTvaDateDeb;
 
-    @Column(nullable = true)
+    @Column(name="yPmExemptTvaDateFin",nullable = true)
     private Date exemptTvaDateFin;
 
-    @Column(nullable = true)
+    @Column(name="yPmBoolExemptRs",nullable = true)
     private String exemptRs;
 
-    @Column(nullable = true)
+    @Column(name="yPmExemptRsDateDeb",nullable = true)
     private Date exemptRsDateDeb;
 
-    @Column(nullable = true)
+    @Column(name="yPmExemptRsDateFin",nullable = true)
     private Date exemptRsDateFin;
 
-    @Column(nullable = true)
+    @Column(name="yPmBoolExemptFatca",nullable = true)
     private boolean exemptFatca;
 
-    @Column(nullable = true)
+    @Column(name="yPmFinActiviteDate",nullable = true)
     private Date finActiviteDate;
 
-    @Column(nullable = true)
+    @Column(name="yPmInfoLibre",nullable = true)
     private String infoLibre;
 
 

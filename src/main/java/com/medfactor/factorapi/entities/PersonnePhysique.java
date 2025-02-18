@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="personne_physique" ,uniqueConstraints = @UniqueConstraint(columnNames = {"numero_piece_identite","type_piece_identite"}))
+@Table(name="yPp" ,uniqueConstraints = @UniqueConstraint(columnNames = {"yPpPieceIdentNum","xTypePieceIdentIdFk"}))
 public class PersonnePhysique{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,87 +23,91 @@ public class PersonnePhysique{
 
     /* PIECE IDENTITE */
     @ManyToOne
-    @JoinColumn(name = "type_piece_identite", nullable = false)
+    @JoinColumn(name = "xTypePieceIdentIdFk", nullable = false)
     private TypePieceId TypePieceIdentite;
 
-    @Column(name = "numero_piece_identite")
+    @Column(name = "yPpPieceIdentNum")
     private String numeroPieceIdentite;
 
-    @Column(nullable = true)
+    @Column(name="yPpPieceIdentDelivDate",nullable = true)
     private Date pieceIdentiteDelivDate;
 
-    @Column(nullable = true)
+    @Column(name="yPpPieceIdentDelivLieue",nullable = true)
     private String pieceIdentiteDelivLieu;
 
-    @Column(nullable = true)
+    @Column(name="yPpPieceIdentAutorite",nullable = true)
     private String pieceIdentiteAutorite;
 
-    @Column(nullable = true)
+    @Column(name="yPpPieceIdentExripeDate",nullable = true)
     private Date pieceIdentiteExpireDate;
 
     /* informations generales */
-
+    @Column(name="yPpNom",nullable = false)
     private String nom;
+
+    @Column(name="yPpPrenom",nullable = false)
     private String prenom;
 
-    @Column(nullable = true)
+    @Column(name="yPpAlias",nullable = true)
     private String alias;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column(name="yPpGenree",nullable = true)
     private Genre genre;
 
-    @Column(nullable = true)
+    @Column(name="yPpNaissanceDate",nullable = true)
     private Date naissanceDate;
 
-    @Column(nullable = true)
+    @Column(name="yPpNaissanceLieu",nullable = true)
     private String naissanceLieu;
 
     @ManyToOne
-    @JoinColumn(name = "nationalite", nullable = true)
+    @JoinColumn(name = "xNationaliteIdFk", nullable = true)
     private Nationalite nationalite;
 
     @ManyToOne
-    @JoinColumn(name = "profession", nullable = true)
+    @JoinColumn(name = "xProfessionIdFk", nullable = true)
     private Profession profession;
 
-    @Column(nullable = true)
+    @Column(name="yPpTelMobileNo",nullable = true)
     private String telMobileNo;
 
+    @Column(name="yPpAdresse",nullable = false)
     private String adresse;
 
-    @Column(nullable = true)
+    @Column(name="yPpEmail",nullable = true)
     private String Email;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolTun",nullable = true)
     private boolean tun;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolResident",nullable = true)
     private boolean resident;
-    @Column(nullable = true)
+
+    @Column(name="yPpBoolExemptTva",nullable = true)
     private boolean exemptTva;
 
-    @Column(nullable = true)
+    @Column(name="yPpExemptTvaDateDeb",nullable = true)
     private Date exemptTvaDateDeb;
 
-    @Column(nullable = true)
+    @Column(name="yPpExemptTvaDateFin",nullable = true)
     private Date exemptTvaDateFin;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolExemptRs",nullable = true)
     private String exemptRs;
 
-    @Column(nullable = true)
+    @Column(name="yPpExemptRsDateDeb",nullable = true)
     private Date exemptRsDateDeb;
 
-    @Column(nullable = true)
+    @Column(name="yPpExemptRsDateFin",nullable = true)
     private Date exemptRsDateFin;
 
-    @Column(nullable = true)
+    @Column(name="yPpBoolExemptFatca",nullable = true)
     private boolean exemptFatca;
 
-    @Column(nullable = true)
+    @Column(name="yPpDecesDate",nullable = true)
     private boolean decesDate;
 
-    @Column(nullable = true)
+    @Column(name="yPpInfoLibre",nullable = true)
     private String infoLibre;
 
     @Column(nullable = true)

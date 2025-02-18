@@ -11,13 +11,17 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "xActivite")
 public class Activite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "xActiviteId", nullable = true)
     private Long id;
 
+    @Column(name = "xActiviteCode", nullable = true)
     private String code;
+    @Column(name = "xActiviteDsg", nullable = true)
     private String dsg;
     private Long sysUserId;
     private String sysUser;

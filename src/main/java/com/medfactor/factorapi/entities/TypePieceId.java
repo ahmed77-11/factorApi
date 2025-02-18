@@ -11,27 +11,34 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "xTypePieceIdentité")
 public class TypePieceId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "xTypePieceIdentId", nullable = true)
     private Long id;
 
+    @Column(name = "xTypePieceIdentCode", nullable = false)
     private String code;
+
+    @Column(name = "xTypePieceIdentDsg", nullable = false)
     private String dsg;
+
+    @Column(name = "xTypePieceIdentTaille", nullable = false)
     private int taille;
 
-    @Column(name = "pp_tun", nullable = true)
+    @Column(name = "xTypePieceIdentBoolPpTun", nullable = false)
     private boolean ppTun;
-    @Column(name = "pp_etr", nullable = true)
+    @Column(name = "xTypePieceIdentBoolPpEtr", nullable = false)
     private boolean ppEtr;
 
-    @Column(name = "pp_res", nullable = true)
+    @Column(name = "xTypePieceIdentBoolPpEtrRes", nullable = false)
     private boolean ppRes;
 
-    @Column(name = "pp_non_res", nullable = true)
+    @Column(name = "xTypePieceIdentBoolPpEtrNonRes", nullable = false)
     private boolean ppNonRes;
-    @Column(name = "pm_tun", nullable = true)
+    @Column(name = "xTypePieceIdentBoolPmTun", nullable = false)
     private boolean pmTun;
 
     private Long sysUserId;
