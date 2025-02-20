@@ -144,7 +144,7 @@ public class PersonneMorale   {
     private Long sysUserId;
     private String sysUser;
     private String sysAdrIp;
-    private Date sysDate;
+    private Date sysDate=new Date();
 
     // Allow multiple roles
     @ElementCollection(targetClass = IndviduRole.class, fetch = FetchType.EAGER)
@@ -152,6 +152,15 @@ public class PersonneMorale   {
     @Enumerated(EnumType.STRING)
     private Set<IndviduRole> indviduRoles;
 
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "adherent_contact",
+            joinColumns = @JoinColumn(name = "adherent_id"),
+            inverseJoinColumns = @JoinColumn(name = "contact_id")
+    )
+    private List<PersonnePhysique> contact;
     // Self-referential Many-to-Many: Adhérent -> Acheteurs
 //    @ManyToMany
 //    @JoinTable(

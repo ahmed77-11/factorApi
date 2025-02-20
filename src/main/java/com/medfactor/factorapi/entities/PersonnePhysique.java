@@ -119,7 +119,7 @@ public class PersonnePhysique{
     private Long sysUserId;
     private String sysUser;
     private String sysAdrIp;
-    private Date sysDate;
+    private Date sysDate= new Date();
 
     // Allow multiple roles
     @ElementCollection(targetClass = IndviduRole.class, fetch = FetchType.EAGER)
