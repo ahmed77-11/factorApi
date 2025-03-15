@@ -27,12 +27,12 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
 
     @Override
     public List<PersonneMorale> getAllPM() {
-        return repository.findAll();
+        return repository.findAllByArchiver(false);
     }
 
     @Override
     public Optional<PersonneMorale> getPMById(Long id) {
-        return repository.findById(id);
+        return repository.findByIdAndArchiver(id,false);
     }
 
     @Override
@@ -50,11 +50,15 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
             personneMorale.setVille(pm.getVille());
             personneMorale.setEmail(pm.getEmail());
             personneMorale.setTelNo(pm.getTelNo());
+            personneMorale.setMatriculeFiscal(pm.getMatriculeFiscal());
             return repository.save(personneMorale);
         }).orElseThrow(() -> new RuntimeException("Personne morale non trouvée"));
     }
 
     @Override
     public void deletePM(Long id) {
+       PersonneMorale p= repository.findById(id).orElseThrow(()->new RuntimeException("Personne morale non trouvée"));
+       p.setArchiver(true);
+       repository.save(p);
     }
 }

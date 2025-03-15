@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pp")
@@ -28,5 +27,27 @@ public class PersonnePhysiqueController {
         return ResponseEntity.ok(service.createPersonne(personne));
     }
 
+    @GetMapping("/all")
+    public List<PersonnePhysique> getPersonne() {
+        return service.getAllPersonnes();
+    }
+
+    @GetMapping("/get-pp/{id}")
+    public PersonnePhysique getPersonneById(@PathVariable Long id) {
+        return service.getPersonneById(id).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
+    }
+    @PostMapping("/update-pp/{id}")
+    public PersonnePhysique updatePersonne(@PathVariable Long id, @RequestBody PersonnePhysique personne, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        personne.setSysUser(auth.getName());
+        personne.setSysUserId((Long) request.getAttribute("userId"));
+        personne.setSysAdrIp(request.getAttribute("clientIp").toString());
+        return service.updatePersonne(id, personne);
+    }
+
+    @DeleteMapping("/delete-pp/{id}")
+    public void deletePersonne(@PathVariable Long id) {
+        service.deletePersonne(id);
+    }
 
 }

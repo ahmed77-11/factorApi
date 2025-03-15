@@ -15,4 +15,11 @@ public class TypePieceIdServiceImpl implements TypePieceIdService{
     public List<TypePieceId> getAllPieceId() {
         return repository.findAll();
     }
+
+    @Override
+    public TypePieceId addPieceId(TypePieceId pieceId) {
+        return repository.save(pieceId);
+    }
+
+
 }

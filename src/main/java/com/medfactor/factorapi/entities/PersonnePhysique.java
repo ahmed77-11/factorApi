@@ -121,6 +121,10 @@ public class PersonnePhysique{
     private String sysAdrIp;
     private Date sysDate= new Date();
 
+    @Column(nullable = true)
+    private boolean archiver=false;
+
+
     // Allow multiple roles
     @ElementCollection(targetClass = IndviduRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "personne_physique_roles", joinColumns = @JoinColumn(name = "personne_physique_id"))

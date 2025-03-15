@@ -19,12 +19,12 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
 
     @Override
     public List<PersonnePhysique> getAllPersonnes() {
-        return repository.findAll();
+        return repository.findAllByArchiver(false);
     }
 
     @Override
     public Optional<PersonnePhysique> getPersonneById(Long id) {
-        return Optional.empty();
+        return repository.findByIdAndArchiver(id,false);
     }
 
     @Override
@@ -41,13 +41,16 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
             personne.setAdresse(personneDetails.getAdresse());
             personne.setEmail(personneDetails.getEmail());
             personne.setTelMobileNo(personneDetails.getTelMobileNo());
-            personne.setNationalite(personneDetails.getNationalite());
+            personne.setNaissanceDate(personneDetails.getNaissanceDate());
+            //personne.setNationalite(personneDetails.getNationalite());
             return repository.save(personne);
         }).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
     }
 
     @Override
     public void deletePersonne(Long id) {
-
+        PersonnePhysique p= repository.findById(id).orElseThrow(()->new RuntimeException("Personne non trouvée"));
+        p.setArchiver(true);
+        repository.save(p);
     }
 }
