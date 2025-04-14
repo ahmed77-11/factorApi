@@ -84,6 +84,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/pm/**").authenticated()
                         .requestMatchers("/api/pp/**").authenticated()
                         .requestMatchers("/api/type-piece-id/**").authenticated()
+                        .requestMatchers("/api/relations/**").authenticated()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )

@@ -1,16 +1,19 @@
 package com.medfactor.factorapi.controllers;
 
 import com.medfactor.factorapi.entities.PersonneMorale;
+import com.medfactor.factorapi.enums.IndviduRole;
 import com.medfactor.factorapi.service.PersonneMoraleService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -51,4 +54,42 @@ public class PersonneMoraleController {
     public void deletePersonneMorale(@PathVariable Long id) {
         service.deletePM(id);
     }
+
+
+    @PostMapping("/ajouter-role-adherant")
+    public ResponseEntity<?> ajouterRoleAdherant(@RequestBody Long id) {
+        return ResponseEntity.ok(service.ajouterRole(id, IndviduRole.ADHERENT));
+    }
+
+
+    @PostMapping("/ajouter-role-gestionnaire/{id}")
+    public ResponseEntity<?> ajouterRoleGestionnaire(@PathVariable("id") Long id) {
+        System.out.println("Received roles: " );
+
+        return ResponseEntity.ok("e");
+    }
+    @PostMapping("/ajouter-roles/{id}")
+    public ResponseEntity<?> ajouterRoles(@PathVariable("id") Long id, @RequestBody List<String> roles) {
+        System.out.println("Received roles: ");
+        System.out.println("Received roles: ");
+        System.out.println("Received roles: ");
+        System.out.println("Received roles: ");
+        System.out.println("Received roles: ");
+        System.out.println("Received roles: ");
+
+        List<IndviduRole> enumRoles = roles.stream()
+                .map(String::toUpperCase)
+                .map(roleStr -> {
+                    try {
+                        return IndviduRole.valueOf(roleStr);
+                    } catch (IllegalArgumentException ex) {
+                        throw new RuntimeException("Invalid role: " + roleStr);
+                    }
+                })
+                .toList();
+
+        return ResponseEntity.ok(service.ajouterRoles(id, enumRoles));
+
+    }
+
 }

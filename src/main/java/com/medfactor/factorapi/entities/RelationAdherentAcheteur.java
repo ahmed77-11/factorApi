@@ -9,38 +9,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_adherent_acheteur")
+@Table(name = "_adherent_acheteur", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"adherent_id", "acheteur_physique_id", "acheteur_morale_id"})
+})
 public class RelationAdherentAcheteur {
 
-    @EmbeddedId
-    private AdherentAcheteurId id;  // Composite primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;  // Surrogate primary key
 
-    // Adherent (always a PersonneMorale)
     @ManyToOne
-    @MapsId("adherentId")  // Links the foreign key
     @JoinColumn(name = "adherent_id", nullable = false)
     private PersonneMorale adherent;
 
-    // Acheteur as PersonnePhysique (Can be NULL)
     @ManyToOne
-    @MapsId("acheteurPhysiqueId")  // Links the foreign key
-    @JoinColumn(name = "acheteur_physique_id", nullable = true)
+    @JoinColumn(name = "acheteur_physique_id",nullable = true)
     private PersonnePhysique acheteurPhysique;
 
-    // Acheteur as PersonneMorale (Can be NULL)
     @ManyToOne
-    @MapsId("acheteurMoraleId")  // Links the foreign key
-    @JoinColumn(name = "acheteur_morale_id", nullable = true)
+    @JoinColumn(name = "acheteur_morale_id",nullable = true)
     private PersonneMorale acheteurMorale;
 
-
-@PrePersist
+    @PrePersist
     @PreUpdate
     private void validateAcheteur() {
-        if ((acheteurPhysique == null && acheteurMorale == null) ||
-                (acheteurPhysique != null && acheteurMorale != null)) {
+        boolean hasPhysique = acheteurPhysique != null;
+        boolean hasMorale = acheteurMorale != null;
+        if (hasPhysique == hasMorale) { // either both are set or both are null
             throw new IllegalStateException("Exactly one of acheteurPhysique or acheteurMorale must be set.");
         }
     }
-
 }

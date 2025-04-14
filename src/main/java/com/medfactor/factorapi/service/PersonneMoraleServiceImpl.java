@@ -1,12 +1,15 @@
 package com.medfactor.factorapi.service;
 
 import com.medfactor.factorapi.entities.PersonneMorale;
+import com.medfactor.factorapi.entities.PersonnePhysique;
 import com.medfactor.factorapi.entities.TypePieceId;
+import com.medfactor.factorapi.enums.IndviduRole;
 import com.medfactor.factorapi.repos.PersonneMoraleRepository;
 import com.medfactor.factorapi.repos.TypePieceIdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +54,14 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
             personneMorale.setEmail(pm.getEmail());
             personneMorale.setTelNo(pm.getTelNo());
             personneMorale.setMatriculeFiscal(pm.getMatriculeFiscal());
+            if (pm.getIndviduRoles() != null) {
+                pm.getIndviduRoles().forEach(role -> {
+                   if(!personneMorale.getIndviduRoles().contains(role)) {
+                       personneMorale.getIndviduRoles().add(role);
+                   }
+                });
+            }
+
             return repository.save(personneMorale);
         }).orElseThrow(() -> new RuntimeException("Personne morale non trouvée"));
     }
@@ -61,4 +72,21 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
        p.setArchiver(true);
        repository.save(p);
     }
+
+    @Override
+    public PersonneMorale ajouterRole(Long id, IndviduRole role) {
+        PersonneMorale p= repository.findById(id).orElseThrow(()->new RuntimeException("Personne morale non trouvée"));
+        p.getIndviduRoles().add(role);
+        return repository.save(p);
+    }
+
+    @Override
+    public PersonneMorale ajouterRoles(Long id, List<IndviduRole> roles) {
+        return repository.findById(id).map(personne -> {
+            personne.getIndviduRoles().addAll(roles);
+            return repository.save(personne);
+        }).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
+    }
+
+
 }

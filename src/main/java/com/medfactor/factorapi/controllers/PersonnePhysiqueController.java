@@ -1,6 +1,7 @@
 package com.medfactor.factorapi.controllers;
 
 import com.medfactor.factorapi.entities.PersonnePhysique;
+import com.medfactor.factorapi.enums.IndviduRole;
 import com.medfactor.factorapi.service.PersonnePhysiqueService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,21 @@ public class PersonnePhysiqueController {
     @DeleteMapping("/delete-pp/{id}")
     public void deletePersonne(@PathVariable Long id) {
         service.deletePersonne(id);
+    }
+    @PostMapping("/ajouter-roles/{id}")
+    public ResponseEntity<?> ajouterRoles(@PathVariable("id") Long id, @RequestBody List<String> roles) {
+        List<IndviduRole> enumRoles = roles.stream()
+                .map(String::toUpperCase)
+                .map(roleStr -> {
+                    try {
+                        return IndviduRole.valueOf(roleStr);
+                    } catch (IllegalArgumentException ex) {
+                        throw new RuntimeException("Invalid role: " + roleStr);
+                    }
+                })
+                .toList();
+
+        return ResponseEntity.ok(service.ajouterRoles(id, enumRoles));
     }
 
 }

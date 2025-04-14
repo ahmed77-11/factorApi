@@ -1,6 +1,7 @@
 package com.medfactor.factorapi.service;
 
 import com.medfactor.factorapi.entities.PersonneMorale;
+import com.medfactor.factorapi.enums.IndviduRole;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,8 @@ public interface PersonneMoraleService {
     PersonneMorale updatePM(Long id, PersonneMorale pm);
 
     void deletePM(Long id);
+
+    PersonneMorale ajouterRole(Long id, IndviduRole role);
+    PersonneMorale ajouterRoles(Long id, List<IndviduRole> roles);
 
 }
