@@ -40,5 +40,9 @@ public class RolesController {
     public List<RelationAdherentAcheteur> getAcheteursByAdherantId(@PathVariable("adherentId") Long adherentId) {
         return rolesService.getAllAcheteursByAdherantId(adherentId);
     }
+    @GetMapping("/per-acheteur/{AcheteurId}")
+    public ResponseEntity<?> getAcheteurById(@PathVariable("AcheteurId") Long AcheteurId) {
+        return ResponseEntity.ok(rolesService.findPersonneAcheteurById(AcheteurId));
+    }
 
 }

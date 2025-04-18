@@ -88,4 +88,22 @@ public class RolesServiceImpl implements RolesService{
         relationAdherentAcheteurRepository.save(relation);
 
     }
+
+    @Override
+    public Map<String, Object> findPersonneAcheteurById(Long AcheteurId) {
+        Map<String,Object> acheteur=new HashMap<>();
+        PersonnePhysique acheteurPhysique=personnePhysiqueRepository.findByIdAndArchiver(AcheteurId,false).orElse(null);
+        if(acheteurPhysique!=null){
+            acheteur.put("acheteurPhysique",acheteurPhysique);
+            return acheteur;
+
+        }else if(acheteurPhysique==null){
+            PersonneMorale acheteurMorale=personneMoraleRepository.findByIdAndArchiver(AcheteurId,false).orElse(null);
+            acheteur.put("acheteurMorale",acheteurMorale);
+            return acheteur;
+
+        }else{
+            throw new RuntimeException("Acheteur non trouvé");
+        }
+    }
 }

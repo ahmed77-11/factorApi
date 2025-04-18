@@ -15,5 +15,7 @@ public interface RolesService {
 
     void addAcheteurToAdherant(Long adherentId, Long acheteurPhysiqueId, Long acheteurMoraleId);
 
+    Map<String,Object> findPersonneAcheteurById(Long AcheteurId);
+
 
 }
