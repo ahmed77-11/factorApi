@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.service;
 
+import com.medfactor.factorapi.dtos.RelAdhAcheReq;
 import com.medfactor.factorapi.entities.AdherentAcheteurId;
 import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.PersonnePhysique;
@@ -53,7 +54,7 @@ public class RolesServiceImpl implements RolesService{
     }
 
     @Override
-    public void addAcheteurToAdherant(Long adherentId, Long acheteurPhysiqueId, Long acheteurMoraleId) {
+    public void addAcheteurToAdherant(Long adherentId, Long acheteurPhysiqueId, Long acheteurMoraleId, RelAdhAcheReq req) {
         // Find the adherent (always a PersonneMorale)
         PersonneMorale adherent = personneMoraleRepository.findByIdAndArchiver(adherentId, false)
                 .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
@@ -85,6 +86,13 @@ public class RolesServiceImpl implements RolesService{
             throw new RuntimeException("Veuillez choisir un seul acheteur : physique ou morale.");
         }
 
+        relation.setDelaiMaxPai(req.getDelaiMaxPai());
+        relation.setLimiteAchat(req.getLimiteAchat());
+        relation.setLimiteCouverture(req.getLimiteCouverture());
+        relation.setComiteRisqueTexte(req.getComiteRisqueTexte());
+        relation.setComiteDerogTexte(req.getComiteDerogTexte());
+        relation.setEffetDate(req.getEffetDate());
+        relation.setInfoLibre(req.getInfoLibre());
         relationAdherentAcheteurRepository.save(relation);
 
     }

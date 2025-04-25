@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.controllers;
 
+import com.medfactor.factorapi.dtos.RelAdhAcheReq;
 import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.RelationAdherentAcheteur;
 import com.medfactor.factorapi.service.RolesService;
@@ -28,9 +29,9 @@ public class RolesController {
     public ResponseEntity<?> addAcheteur(
             @PathVariable Long adherentId,
             @RequestParam(required = false) Long acheteurPhysiqueId,
-            @RequestParam(required = false) Long acheteurMoraleId) {
+            @RequestParam(required = false) Long acheteurMoraleId, @RequestBody RelAdhAcheReq req) {
 
-        rolesService.addAcheteurToAdherant(adherentId, acheteurPhysiqueId, acheteurMoraleId);
+        rolesService.addAcheteurToAdherant(adherentId, acheteurPhysiqueId, acheteurMoraleId, req);
         return ResponseEntity.ok("Acheteur added to adherent successfully.");
 
 
