@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -72,7 +74,12 @@ public class SecurityConfig {
                 .cors(cors->{
                     cors.configurationSource(request->{
                         var corsConfiguration=new org.springframework.web.cors.CorsConfiguration();
-                        corsConfiguration.addAllowedOrigin("http://localhost:5173");
+                        corsConfiguration.setAllowedOrigins(Arrays.asList(
+                                "http://localhost:5173",  // Your frontend
+                                "http://10.0.2.2",       // Android emulator
+                                "http://localhost",       // For testing
+                                "http://127.0.0.1"       // Alternative localhost
+                        ));
                         corsConfiguration.addAllowedMethod("*");
                         corsConfiguration.addAllowedHeader("*");
                         corsConfiguration.setAllowCredentials(true);
