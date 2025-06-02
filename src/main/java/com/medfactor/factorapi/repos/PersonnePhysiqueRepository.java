@@ -15,5 +15,6 @@ public interface PersonnePhysiqueRepository extends JpaRepository<PersonnePhysiq
     List<PersonnePhysique> findAllByArchiver(boolean archiver);
     Optional<PersonnePhysique> findByIdAndArchiver(Long id, boolean archiver);
     List<PersonnePhysique> findByIndviduRolesContainsAndArchiver(IndviduRole role, boolean archiver);
+    long countByIndviduRolesContaining(IndviduRole role);
 
 }

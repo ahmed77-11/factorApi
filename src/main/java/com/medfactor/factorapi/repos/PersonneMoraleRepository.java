@@ -17,4 +17,7 @@ public interface PersonneMoraleRepository extends JpaRepository<PersonneMorale, 
     Optional<PersonneMorale> findByIdAndArchiver(Long id, boolean archiver);
 
     List<PersonneMorale> findByIndviduRolesContainsAndArchiver(IndviduRole role, boolean archiver);
+
+    long countByIndviduRolesContaining(IndviduRole role);
+
 }

@@ -1,6 +1,7 @@
 package com.medfactor.factorapi.service;
 
 import com.medfactor.factorapi.dtos.RelAdhAcheReq;
+import com.medfactor.factorapi.dtos.TopAdherentDTO;
 import com.medfactor.factorapi.entities.AdherentAcheteurId;
 import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.PersonnePhysique;
@@ -113,5 +114,22 @@ public class RolesServiceImpl implements RolesService{
         }else{
             throw new RuntimeException("Acheteur non trouvé");
         }
+    }
+
+    @Override
+    public List<TopAdherentDTO> getTopAdherents() {
+        return relationAdherentAcheteurRepository.findTopAdherents();
+    }
+
+    @Override
+    public Map<String, Long> getCountRoles() {
+        Map<String, Long> roleCounts = new HashMap<>();
+        Long nbAdherents = personneMoraleRepository.countByIndviduRolesContaining(IndviduRole.ADHERENT);
+        Long nbAcheteurs = personneMoraleRepository.countByIndviduRolesContaining(IndviduRole.ACHETEUR) +
+                personnePhysiqueRepository.countByIndviduRolesContaining(IndviduRole.ACHETEUR);
+        roleCounts.put("nbAdherents", nbAdherents);
+        roleCounts.put("nbAcheteurs", nbAcheteurs);
+        return roleCounts;
+
     }
 }

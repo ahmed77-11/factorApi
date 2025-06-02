@@ -1,6 +1,7 @@
 package com.medfactor.factorapi.controllers;
 
 import com.medfactor.factorapi.dtos.RelAdhAcheReq;
+import com.medfactor.factorapi.dtos.TopAdherentDTO;
 import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.RelationAdherentAcheteur;
 import com.medfactor.factorapi.service.RolesService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/relations")
@@ -44,6 +46,16 @@ public class RolesController {
     @GetMapping("/per-acheteur/{AcheteurId}")
     public ResponseEntity<?> getAcheteurById(@PathVariable("AcheteurId") Long AcheteurId) {
         return ResponseEntity.ok(rolesService.findPersonneAcheteurById(AcheteurId));
+    }
+
+    @GetMapping("/dashboard/top-adherents")
+    public List<TopAdherentDTO> getTopAdherents() {
+        return rolesService.getTopAdherents();
+    }
+
+    @GetMapping("/dashboard/count-roles")
+    public Map<String,Long> getCountRoles() {
+        return rolesService.getCountRoles();
     }
 
 }
