@@ -27,6 +27,15 @@ public class RolesController {
     public List<PersonneMorale> getAdherants() {
         return rolesService.getAllAdherants();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRelationById(@PathVariable("id") Long id) {
+        RelationAdherentAcheteur relation = rolesService.findPersonneAcheteurByIdRelation(id);
+        if (relation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(relation);
+    }
     @PostMapping("/adherants/{adherentId}/acheteurs")
     public ResponseEntity<?> addAcheteur(
             @PathVariable Long adherentId,
@@ -43,6 +52,12 @@ public class RolesController {
     public List<RelationAdherentAcheteur> getAcheteursByAdherantId(@PathVariable("adherentId") Long adherentId) {
         return rolesService.getAllAcheteursByAdherantId(adherentId);
     }
+
+    @PostMapping("/modifier-relations")
+    public ResponseEntity<?> updateRelationAdherentAcheteur(@RequestBody RelationAdherentAcheteur relation) {
+        rolesService.updateRelationAdherentAcheteur(relation);
+        return ResponseEntity.ok("Relation updated successfully.");
+    }
     @GetMapping("/per-acheteur/{AcheteurId}")
     public ResponseEntity<?> getAcheteurById(@PathVariable("AcheteurId") Long AcheteurId) {
         return ResponseEntity.ok(rolesService.findPersonneAcheteurById(AcheteurId));
@@ -57,5 +72,6 @@ public class RolesController {
     public Map<String,Long> getCountRoles() {
         return rolesService.getCountRoles();
     }
+
 
 }

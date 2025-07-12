@@ -8,9 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RelationAdherentAcheteurRepository extends JpaRepository<RelationAdherentAcheteur, Long> {
     List<RelationAdherentAcheteur> findAllByAdherentId(Long adherent_id);
+
+    Optional<RelationAdherentAcheteur> findById(Long id);
 
     @Query("SELECT r FROM RelationAdherentAcheteur r WHERE r.adherent.id = :adherentId")
     List<RelationAdherentAcheteur> findByAdherentId(@Param("adherentId") Long adherentId);

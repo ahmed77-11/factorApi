@@ -45,6 +45,17 @@ public class RolesServiceImpl implements RolesService{
     }
 
     @Override
+    public void updateRelationAdherentAcheteur(RelationAdherentAcheteur relation) {
+        // Validate the relation before saving
+        if (relation.getAdherent() == null || (relation.getAcheteurPhysique() == null && relation.getAcheteurMorale() == null)) {
+            throw new RuntimeException("Relation invalide : l'acheteur ou l'adhérent est manquant.");
+        }
+
+        // Save the relation
+        relationAdherentAcheteurRepository.save(relation);
+    }
+
+    @Override
     public List<RelationAdherentAcheteur> getAllAcheteursByAdherantId(Long adherentId) {
         // Find the adherent (always a PersonneMorale)
         PersonneMorale adherent = personneMoraleRepository.findByIdAndArchiver(adherentId, false)
@@ -114,6 +125,13 @@ public class RolesServiceImpl implements RolesService{
         }else{
             throw new RuntimeException("Acheteur non trouvé");
         }
+    }
+
+    @Override
+    public RelationAdherentAcheteur findPersonneAcheteurByIdRelation(Long id) {
+        RelationAdherentAcheteur relation = relationAdherentAcheteurRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Relation non trouvée pour l'acheteur avec ID: " + id));
+        return relation;
     }
 
     @Override
