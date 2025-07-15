@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.entities;
 
+import com.medfactor.factorapi.dtos.Adherent;
 import com.medfactor.factorapi.enums.IndviduRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name="yPm" ,uniqueConstraints = @UniqueConstraint(columnNames = {"yPmPieceIdentNum","xTypePieceIdentIdFk"}))
-public class PersonneMorale   {
+public class PersonneMorale implements Adherent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.service;
 
+import com.medfactor.factorapi.dtos.Adherent;
 import com.medfactor.factorapi.dtos.RelAdhAcheReq;
 import com.medfactor.factorapi.dtos.TopAdherentDTO;
 import com.medfactor.factorapi.entities.AdherentAcheteurId;
@@ -10,9 +11,14 @@ import com.medfactor.factorapi.enums.IndviduRole;
 import com.medfactor.factorapi.repos.PersonneMoraleRepository;
 import com.medfactor.factorapi.repos.PersonnePhysiqueRepository;
 import com.medfactor.factorapi.repos.RelationAdherentAcheteurRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +33,10 @@ public class RolesServiceImpl implements RolesService{
 
     @Autowired
     private RelationAdherentAcheteurRepository relationAdherentAcheteurRepository;
+
+
+    @Autowired
+    private RestTemplate restTemplate;
     @Override
     public Map<String, Object> getAllAcheteurs() {
         Map<String,Object> acheteurs=new HashMap<>();
@@ -40,14 +50,24 @@ public class RolesServiceImpl implements RolesService{
     }
 
     @Override
-    public List<PersonneMorale> getAllAdherants() {
-        return personneMoraleRepository.findByIndviduRolesContainsAndArchiver(IndviduRole.ADHERENT,false);
+    public List<Adherent> getAllAdherants() {
+        List<Adherent> adherents = new ArrayList<>();
+        adherents.addAll(getAdherentsPhysique());
+        adherents.addAll(getAdherentsMorale());
+        return adherents;
     }
 
+
+    public List<PersonneMorale> getAdherentsMorale(){
+        return personneMoraleRepository.findByIndviduRolesContainsAndArchiver(IndviduRole.ADHERENT, false);
+    }
+    public List<PersonnePhysique> getAdherentsPhysique(){
+        return personnePhysiqueRepository.findByIndviduRolesContainsAndArchiver(IndviduRole.ADHERENT, false);
+    }
     @Override
     public void updateRelationAdherentAcheteur(RelationAdherentAcheteur relation) {
         // Validate the relation before saving
-        if (relation.getAdherent() == null || (relation.getAcheteurPhysique() == null && relation.getAcheteurMorale() == null)) {
+        if (relation.getContratId() == null || (relation.getAcheteurPhysique() == null && relation.getAcheteurMorale() == null)) {
             throw new RuntimeException("Relation invalide : l'acheteur ou l'adhérent est manquant.");
         }
 
@@ -56,48 +76,107 @@ public class RolesServiceImpl implements RolesService{
     }
 
     @Override
-    public List<RelationAdherentAcheteur> getAllAcheteursByAdherantId(Long adherentId) {
-        // Find the adherent (always a PersonneMorale)
-        PersonneMorale adherent = personneMoraleRepository.findByIdAndArchiver(adherentId, false)
-                .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
+    public List<RelationAdherentAcheteur> getAllAcheteursByAdherantId(
+            Long adherentId,
+            String token
+    ) {
 
-        // Fetch all relations for the given adherent
-        return relationAdherentAcheteurRepository.findAllByAdherentId(adherent.getId());
+//        PersonneMorale adherent = personneMoraleRepository
+//                .findByIdAndArchiver(adherentId, false)
+//                .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
+//
+//
+//        if (!adherent.getIndviduRoles().contains(IndviduRole.ADHERENT)) {
+//            throw new RuntimeException("L'adhérent n'a pas le rôle ADHERENT.");
+//        }
+
+        String url = "http://localhost:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
+        HttpHeaders headers = new HttpHeaders();
+        // If your API expects the JWT in a Cookie:
+        headers.add(HttpHeaders.COOKIE, "JWT_TOKEN=" + token);
+        // Or if it expects a Bearer header:
+        // headers.setBearerAuth(token);
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Use exchange so headers get sent
+        ResponseEntity<Map> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                Map.class
+        );
+
+        Map contrat = response.getBody();
+        if (contrat == null || contrat.get("id") == null) {
+            throw new RuntimeException("Contrat non trouvé pour l'adhérent avec ID: " + adherentId);
+        }
+        Long contratId = ((Number) contrat.get("id")).longValue();
+
+        return relationAdherentAcheteurRepository.findAllByContratId(contratId);
     }
 
+
     @Override
-    public void addAcheteurToAdherant(Long adherentId, Long acheteurPhysiqueId, Long acheteurMoraleId, RelAdhAcheReq req) {
-        // Find the adherent (always a PersonneMorale)
-        PersonneMorale adherent = personneMoraleRepository.findByIdAndArchiver(adherentId, false)
-                .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
+    public void addAcheteurToAdherant(
+            Long adherentId,
+            Long acheteurPhysiqueId,
+            Long acheteurMoraleId,
+            RelAdhAcheReq req,
+            HttpServletRequest httpRequest
+    ) {
+        // 1) Load and validate adherent
 
-        // Create a new instance of the embedded ID and the relation entity
+        // 2) Pull JWT token
+        String token = (String) httpRequest.getAttribute("JWT_TOKEN");
 
+        // 3) Call contrat service WITH your JWT COOKIE or Bearer header
+        String url = "http://localhost:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
+        HttpHeaders headers = new HttpHeaders();
+        // If your service reads the token from a cookie:
+        headers.add(HttpHeaders.COOKIE, "JWT_TOKEN=" + token);
+        // Or if it expects Authorization header instead:
+        // headers.setBearerAuth(token);
 
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<Map> resp = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                Map.class
+        );
+
+        if (resp.getStatusCode() != HttpStatus.OK || resp.getBody() == null) {
+            throw new RuntimeException("Contrat non trouvé pour l'adhérent ID: " + adherentId);
+        }
+        Map<?,?> contratMap = resp.getBody();
+        Number rawId = (Number) contratMap.get("id");
+        if (rawId == null) {
+            throw new RuntimeException("Réponse du contrat ne contient pas d’ID");
+        }
+        Long contratId = rawId.longValue();
+
+        // 4) Build the relation
         RelationAdherentAcheteur relation = new RelationAdherentAcheteur();
-        relation.setAdherent(adherent);
+        relation.setContratId(contratId);
 
-        // Validate and assign the acheteur based on which one is provided
-        if (acheteurMoraleId != null && acheteurPhysiqueId == null) {
-            PersonneMorale acheteurMorale = personneMoraleRepository.findByIdAndArchiver(acheteurMoraleId, false)
-                    .orElseThrow(() -> new RuntimeException("Acheteur morale non trouvé"));
-
-            relation.setAcheteurMorale(acheteurMorale);
-            relation.setAcheteurPhysique(null);
-
-
-        } else if (acheteurPhysiqueId != null && acheteurMoraleId == null) {
-            PersonnePhysique acheteurPhysique = personnePhysiqueRepository.findByIdAndArchiver(acheteurPhysiqueId, false)
-                    .orElseThrow(() -> new RuntimeException("Acheteur physique non trouvé"));
-
-            relation.setAcheteurPhysique(acheteurPhysique);
-            relation.setAcheteurMorale(null);
-
-
+        if (acheteurMoraleId != null ^ acheteurPhysiqueId != null) {
+            if (acheteurMoraleId != null) {
+                PersonneMorale pm = personneMoraleRepository
+                        .findByIdAndArchiver(acheteurMoraleId, false)
+                        .orElseThrow(() -> new RuntimeException("Acheteur morale non trouvé"));
+                relation.setAcheteurMorale(pm);
+            } else {
+                PersonnePhysique pp = personnePhysiqueRepository
+                        .findByIdAndArchiver(acheteurPhysiqueId, false)
+                        .orElseThrow(() -> new RuntimeException("Acheteur physique non trouvé"));
+                relation.setAcheteurPhysique(pp);
+            }
         } else {
-            throw new RuntimeException("Veuillez choisir un seul acheteur : physique ou morale.");
+            throw new RuntimeException("Veuillez choisir un seul acheteur : physique ou morale.");
         }
 
+        // 5) Fill in the rest from your request DTO
         relation.setDelaiMaxPai(req.getDelaiMaxPai());
         relation.setLimiteAchat(req.getLimiteAchat());
         relation.setLimiteCouverture(req.getLimiteCouverture());
@@ -105,9 +184,11 @@ public class RolesServiceImpl implements RolesService{
         relation.setComiteDerogTexte(req.getComiteDerogTexte());
         relation.setEffetDate(req.getEffetDate());
         relation.setInfoLibre(req.getInfoLibre());
-        relationAdherentAcheteurRepository.save(relation);
 
+        // 6) Persist
+        relationAdherentAcheteurRepository.save(relation);
     }
+
 
     @Override
     public Map<String, Object> findPersonneAcheteurById(Long AcheteurId) {
@@ -136,7 +217,8 @@ public class RolesServiceImpl implements RolesService{
 
     @Override
     public List<TopAdherentDTO> getTopAdherents() {
-        return relationAdherentAcheteurRepository.findTopAdherents();
+//        return relationAdherentAcheteurRepository.findTopAdherents();
+        return null;
     }
 
     @Override

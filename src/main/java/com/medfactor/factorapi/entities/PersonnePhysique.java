@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.entities;
 
+import com.medfactor.factorapi.dtos.Adherent;
 import com.medfactor.factorapi.enums.Genre;
 import com.medfactor.factorapi.enums.IndviduRole;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="yPp" ,uniqueConstraints = @UniqueConstraint(columnNames = {"yPpPieceIdentNum","xTypePieceIdentIdFk"}))
-public class PersonnePhysique{
+public class PersonnePhysique implements Adherent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -82,6 +83,9 @@ public class PersonnePhysique{
 
     @Column(name="yPpBoolResident",nullable = true)
     private boolean resident;
+
+    @Column(name = "yPpMatriculeFiscal", nullable = true)
+    private String matriculeFiscal;
 
     @Column(name="yPpBoolExemptTva",nullable = true)
     private boolean exemptTva;

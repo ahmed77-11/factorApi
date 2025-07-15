@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "_adherent_acheteur", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"adherent_id", "acheteur_physique_id", "acheteur_morale_id"})
+        @UniqueConstraint(columnNames = {"contrat_id", "acheteur_physique_id", "acheteur_morale_id"})
 })
 public class RelationAdherentAcheteur {
 
@@ -20,9 +20,13 @@ public class RelationAdherentAcheteur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Surrogate primary key
 
-    @ManyToOne
-    @JoinColumn(name = "adherent_id", nullable = false)
-    private PersonneMorale adherent;
+
+    @Column(name ="contrat_id", nullable = true)
+    private Long contratId;
+
+//    @ManyToOne
+//    @JoinColumn(name = "adherent_id", nullable = false)
+//    private PersonneMorale adherent;
 
     @ManyToOne
     @JoinColumn(name = "acheteur_physique_id",nullable = true)

@@ -1,10 +1,12 @@
 package com.medfactor.factorapi.controllers;
 
+import com.medfactor.factorapi.dtos.Adherent;
 import com.medfactor.factorapi.dtos.RelAdhAcheReq;
 import com.medfactor.factorapi.dtos.TopAdherentDTO;
 import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.RelationAdherentAcheteur;
 import com.medfactor.factorapi.service.RolesService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class RolesController {
     }
 
     @GetMapping("/adherants")
-    public List<PersonneMorale> getAdherants() {
+    public List<Adherent> getAdherants() {
         return rolesService.getAllAdherants();
     }
 
@@ -40,17 +42,18 @@ public class RolesController {
     public ResponseEntity<?> addAcheteur(
             @PathVariable Long adherentId,
             @RequestParam(required = false) Long acheteurPhysiqueId,
-            @RequestParam(required = false) Long acheteurMoraleId, @RequestBody RelAdhAcheReq req) {
+            @RequestParam(required = false) Long acheteurMoraleId, @RequestBody RelAdhAcheReq req,HttpServletRequest http) {
 
-        rolesService.addAcheteurToAdherant(adherentId, acheteurPhysiqueId, acheteurMoraleId, req);
+        rolesService.addAcheteurToAdherant(adherentId, acheteurPhysiqueId, acheteurMoraleId, req,http);
         return ResponseEntity.ok("Acheteur added to adherent successfully.");
 
 
     }
 
     @GetMapping("/acheteurs/{adherentId}")
-    public List<RelationAdherentAcheteur> getAcheteursByAdherantId(@PathVariable("adherentId") Long adherentId) {
-        return rolesService.getAllAcheteursByAdherantId(adherentId);
+    public List<RelationAdherentAcheteur> getAcheteursByAdherantId(@PathVariable("adherentId") Long adherentId, HttpServletRequest request) {
+        String token=(String) request.getAttribute("JWT_TOKEN");
+        return rolesService.getAllAcheteursByAdherantId(adherentId,token);
     }
 
     @PostMapping("/modifier-relations")

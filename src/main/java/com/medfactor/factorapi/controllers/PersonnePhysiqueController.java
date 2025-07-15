@@ -65,5 +65,9 @@ public class PersonnePhysiqueController {
 
         return ResponseEntity.ok(service.ajouterRoles(id, enumRoles));
     }
+    @PostMapping("/ajouter-role-adherant")
+    public ResponseEntity<?> ajouterRoleAdherant(@RequestBody Long id) {
+        return ResponseEntity.ok(service.ajouterRole(id, IndviduRole.ADHERENT));
+    }
 
 }

@@ -17,6 +17,7 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
     private PersonnePhysiqueRepository repository;
     @Override
     public PersonnePhysique createPersonne(PersonnePhysique personne) {
+        System.out.println(personne);
         return repository.save(personne);
     }
 
@@ -45,6 +46,7 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
             personne.setEmail(personneDetails.getEmail());
             personne.setTelMobileNo(personneDetails.getTelMobileNo());
             personne.setNaissanceDate(personneDetails.getNaissanceDate());
+            personne.setMatriculeFiscal(personneDetails.getMatriculeFiscal());
             if (personneDetails.getIndviduRoles() != null) {
 
                 personneDetails.getIndviduRoles().forEach(role -> {

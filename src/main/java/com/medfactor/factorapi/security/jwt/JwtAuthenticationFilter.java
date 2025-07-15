@@ -34,6 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractTokenFromCookies(request);
 
             if (token != null && jwtUtils.validateJwtToken(token)) {
+                request.setAttribute("JWT_TOKEN", token);
+
                 String username = jwtUtils.getUserNameFromJwtToken(token);
                 String role = jwtUtils.getUserRoleFromJwt(token);  // Extract roles from JWT
                 Long userId = jwtUtils.getUserIdFromJwt(token);    // Extract user ID from JWT
