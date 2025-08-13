@@ -75,6 +75,17 @@ public class PersonneMorale implements Adherent {
     @Column(name = "yPmAdresse", nullable = false)
     private String adresse;
 
+
+    @Column(name = "yPmAdherBoolAccord", nullable = true)
+    private Boolean pmAdherBoolAccord= false;
+    @Column(name = "yPmAdherEnqueteEnCours", nullable = true)
+    private Boolean pmAdherEnqueteEnCours= false;
+    @Column(name = "yPmAchetBoolAccord", nullable = true)
+    private Boolean pmAchetBoolAccord= false;
+    @Column(name = "yPmAchetEnqueteEnCours", nullable = true)
+    private Boolean pmAchetEnqueteEnCours= false;
+
+
     @Column(name = "yPmVille", nullable = false)
     private String ville;
 
@@ -135,8 +146,24 @@ public class PersonneMorale implements Adherent {
     @Column(name="yPmBoolExemptFatca",nullable = true)
     private boolean exemptFatca;
 
-    @Column(name="yPmFinActiviteDate",nullable = true)
-    private Date finActiviteDate;
+    @Column(name="yPmFactorAdherCode", nullable = true)
+    private String factorAdherCode;
+    @Column(name="yPmFactorAchetCode", nullable = true)
+    private String factorAchetCode;
+    @Column(name = "yPmFactorFournCode",nullable = true)
+    private String factorFournCode;
+    @Column(name = "yPmMfgAdherCode", nullable = true)
+    private String PmMfgAdherCode;
+    @Column(name ="yPmMfgAchetCode" ,nullable = true)
+    private String PmMfgAchetCode;
+    @Column(name = "yPmMfgFournCode", nullable = true)
+    private String PmMfgFournCode;
+
+    @Column(name="yPmActiviteDateDeb",nullable = true)
+    private Date activiteDateDeb;
+    @Column(name="yPmActiviteDateFin",nullable = true)
+    private Date activiteDateFin;
+
 
     @Column(name="yPmInfoLibre",nullable = true)
     private String infoLibre;

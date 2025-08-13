@@ -20,4 +20,7 @@ public interface PersonneMoraleRepository extends JpaRepository<PersonneMorale, 
 
     long countByIndviduRolesContaining(IndviduRole role);
 
+    List<PersonneMorale> findAllByPmAdherBoolAccordAndPmAdherEnqueteEnCoursAndArchiver(boolean pmAdherBoolAccord, boolean pmAdherEnqueteEnCours, boolean archiver);
+    List<PersonneMorale> findAllByPmAchetBoolAccordAndPmAchetEnqueteEnCoursAndArchiver(boolean pmAchetBoolAccord, boolean pmAchetEnqueteEnCours, boolean archiver);
+
 }

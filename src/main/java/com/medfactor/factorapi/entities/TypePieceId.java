@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "xTypePieceIdentité")
+@Table(name = "xTypePieceIdentite")
 public class TypePieceId {
 
     @Id
@@ -43,6 +43,7 @@ public class TypePieceId {
 
     private Long sysUserId;
     private String sysUser;
+    private String sysAction;
     private String sysAdrIp;
     private Date sysDate;
 }

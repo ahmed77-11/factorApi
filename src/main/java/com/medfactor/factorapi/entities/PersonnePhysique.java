@@ -20,6 +20,7 @@ import java.util.Set;
 public class PersonnePhysique implements Adherent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "yPpId", nullable = false)
     public Long id;
 
     /* PIECE IDENTITE */
@@ -33,7 +34,7 @@ public class PersonnePhysique implements Adherent {
     @Column(name="yPpPieceIdentDelivDate",nullable = true)
     private Date pieceIdentiteDelivDate;
 
-    @Column(name="yPpPieceIdentDelivLieue",nullable = true)
+    @Column(name="yPpPieceIdentDelivLieu",nullable = true)
     private String pieceIdentiteDelivLieu;
 
     @Column(name="yPpPieceIdentAutorite",nullable = true)
@@ -52,7 +53,7 @@ public class PersonnePhysique implements Adherent {
     @Column(name="yPpAlias",nullable = true)
     private String alias;
     @Enumerated(EnumType.STRING)
-    @Column(name="yPpGenree",nullable = true)
+    @Column(name="yPpGenre",nullable = true)
     private Genre genre;
 
     @Column(name="yPpNaissanceDate",nullable = true)
@@ -108,20 +109,44 @@ public class PersonnePhysique implements Adherent {
     @Column(name="yPpBoolExemptFatca",nullable = true)
     private boolean exemptFatca;
 
+
+    @Column(name="yPpFactorAdherCode", nullable = true)
+    private String factorAdherCode;
+    @Column(name="yPpFactorAchetCode", nullable = true)
+    private String factorAchetCode;
+    @Column(name = "yPpFactprFournCode",nullable = true)
+    private String factorFournCode;
+    @Column(name="yPpMfgAdherCode", nullable = true)
+    private String ppMfgAdherCode;
+    @Column(name="yPpMfgAchetCode", nullable = true)
+    private String ppMfgAchetCode;
+    @Column(name="yPpMfgFournCode", nullable = true)
+    private String ppMfgFournCode;
+
     @Column(name="yPpDecesDate",nullable = true)
     private boolean decesDate;
 
     @Column(name="yPpInfoLibre",nullable = true)
     private String infoLibre;
 
-    @Column(nullable = true)
-    private boolean contact;
+    @Column(name = "yPpAdherBoolAccord", nullable = true)
+    private Boolean ppAdherBoolAccord= false;
+    @Column(name ="yPpAdherEnqueteEnCours", nullable = true)
+    private Boolean ppAdherEnqueteEnCours= false;
+    @Column(name = "yPpAchetBoolAccord", nullable = true)
+    private Boolean ppAchetBoolAccord= false;
+    @Column(name ="yPpAchetEnqueteEnCours", nullable = true)
+    private Boolean ppAchetEnqueteEnCours= false;
 
-    @Column(nullable = true)
-    private boolean acheteur;
+//    @Column(nullable = true)
+//    private boolean contact;
+//
+//    @Column(nullable = true)
+//    private boolean acheteur;
 
     private Long sysUserId;
     private String sysUser;
+    private String sysAction;
     private String sysAdrIp;
     private Date sysDate= new Date();
 

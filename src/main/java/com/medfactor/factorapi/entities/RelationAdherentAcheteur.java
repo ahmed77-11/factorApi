@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_adherent_acheteur", uniqueConstraints = {
+@Table(name = "y_adher_achet", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"contrat_id", "acheteur_physique_id", "acheteur_morale_id"})
 })
 public class RelationAdherentAcheteur {

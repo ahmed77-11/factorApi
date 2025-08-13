@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/pm")
+@RequestMapping("/api/accord")
 public class AccordController {
     @Autowired
     private AccordService accordService;

@@ -82,4 +82,13 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
             return repository.save(personne);
         }).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
     }
+
+    @Override
+    public List<PersonnePhysique> getAllPPsByAdherAccord(boolean ppAdherBoolAccord) {
+        return repository.findAllByPpAdherBoolAccordAndPpAdherEnqueteEnCoursAndArchiver(ppAdherBoolAccord, false,false);
+    }
+    @Override
+    public List<PersonnePhysique> getAllPPsByAchetAccord(boolean ppAchetBoolAccord) {
+        return repository.findAllByPpAchetBoolAccordAndPpAchetEnqueteEnCoursAndArchiver(ppAchetBoolAccord, false,false);
+    }
 }

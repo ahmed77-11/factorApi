@@ -57,6 +57,10 @@ public class EnqueteController {
     public List<Enquete> getAllEnquetes() {
         return enqueteService.getAllEnquetes();
     }
+    @GetMapping("/all-active-enquetes")
+    public List<Enquete> getAllActiveEnquetes() {
+        return enqueteService.getAllActiveEnquetes();
+    }
     @DeleteMapping("/delete-enquete/{id}")
     public boolean deleteEnquete(@PathVariable("id") Long id) {
         return enqueteService.deleteEnquete(id);

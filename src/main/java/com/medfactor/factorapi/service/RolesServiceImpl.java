@@ -91,6 +91,7 @@ public class RolesServiceImpl implements RolesService{
 //        }
 
         String url = "http://localhost:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
+//        String url = "http://contract:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
         HttpHeaders headers = new HttpHeaders();
         // If your API expects the JWT in a Cookie:
         headers.add(HttpHeaders.COOKIE, "JWT_TOKEN=" + token);
@@ -132,6 +133,7 @@ public class RolesServiceImpl implements RolesService{
 
         // 3) Call contrat service WITH your JWT COOKIE or Bearer header
         String url = "http://localhost:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
+//        String url = "http://contract:8083/factoring/contrat/api/find-by-adherent/" + adherentId;
         HttpHeaders headers = new HttpHeaders();
         // If your service reads the token from a cookie:
         headers.add(HttpHeaders.COOKIE, "JWT_TOKEN=" + token);
@@ -224,7 +226,8 @@ public class RolesServiceImpl implements RolesService{
     @Override
     public Map<String, Long> getCountRoles() {
         Map<String, Long> roleCounts = new HashMap<>();
-        Long nbAdherents = personneMoraleRepository.countByIndviduRolesContaining(IndviduRole.ADHERENT);
+        Long nbAdherents = personneMoraleRepository.countByIndviduRolesContaining(IndviduRole.ADHERENT) +
+                personnePhysiqueRepository.countByIndviduRolesContaining(IndviduRole.ADHERENT);
         Long nbAcheteurs = personneMoraleRepository.countByIndviduRolesContaining(IndviduRole.ACHETEUR) +
                 personnePhysiqueRepository.countByIndviduRolesContaining(IndviduRole.ACHETEUR);
         roleCounts.put("nbAdherents", nbAdherents);

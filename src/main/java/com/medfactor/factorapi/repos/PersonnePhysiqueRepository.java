@@ -17,4 +17,8 @@ public interface PersonnePhysiqueRepository extends JpaRepository<PersonnePhysiq
     List<PersonnePhysique> findByIndviduRolesContainsAndArchiver(IndviduRole role, boolean archiver);
     long countByIndviduRolesContaining(IndviduRole role);
 
+
+    List<PersonnePhysique> findAllByPpAdherBoolAccordAndPpAdherEnqueteEnCoursAndArchiver(boolean ppAdherBoolAccord, boolean ppAdherEnqueteEnCours, boolean archiver);
+    List<PersonnePhysique> findAllByPpAchetBoolAccordAndPpAchetEnqueteEnCoursAndArchiver(boolean ppAchetBoolAccord, boolean ppAchetEnqueteEnCours, boolean archiver);
+
 }

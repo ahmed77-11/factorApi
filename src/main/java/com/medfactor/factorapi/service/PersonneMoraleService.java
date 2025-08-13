@@ -21,4 +21,7 @@ public interface PersonneMoraleService {
     PersonneMorale ajouterRole(Long id, IndviduRole role);
     PersonneMorale ajouterRoles(Long id, List<IndviduRole> roles);
 
+    List<PersonneMorale> getAllPMsByAdherAccord(boolean pmAdherBoolAccord);
+    List<PersonneMorale> getAllPMsByAchetAccord(boolean pmAchetBoolAccord);
+
 }

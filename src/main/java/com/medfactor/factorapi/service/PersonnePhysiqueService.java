@@ -22,5 +22,7 @@ public interface PersonnePhysiqueService {
     PersonnePhysique ajouterRole(Long id, IndviduRole role);
     PersonnePhysique ajouterRoles(Long id, List<IndviduRole> roles);
 
+    List<PersonnePhysique> getAllPPsByAdherAccord(boolean ppAdherBoolAccord);
+    List<PersonnePhysique> getAllPPsByAchetAccord(boolean ppAchetBoolAccord);
 
 }

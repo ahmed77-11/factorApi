@@ -70,4 +70,16 @@ public class PersonnePhysiqueController {
         return ResponseEntity.ok(service.ajouterRole(id, IndviduRole.ADHERENT));
     }
 
+    @GetMapping("/all-by-adher-sans-accord")
+    public List<PersonnePhysique> getAllPPsByAdherAccord() {
+        return service.getAllPPsByAdherAccord(false);
+    }
+    @GetMapping("/all-by-achet-sans-accord")
+    public List<PersonnePhysique> getAllPPsByAchetAccord() {
+        return service.getAllPPsByAchetAccord(false);
+    }
+
+
+
+
 }

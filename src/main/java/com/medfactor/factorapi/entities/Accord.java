@@ -24,11 +24,21 @@ public class Accord {
     @JoinColumn(name = "yEnqueteIdFk", nullable = true)
     private Enquete enquete;
 
+    @Column(name = "yEnqueteRef", length = 20, nullable = true)
+    private String enqueteRef;
+
     @Column(name = "yAccordRisqueRef", length = 20, nullable = true)
     private String risqueRef;
 
     @Column(name = "yAccordRisqueDate", nullable = true)
     private Date risqueDate;
+
+    @Column(name="xAssurCode",nullable = true)
+    private String assurCode;
+    @Column(name="xAccordAssurDate", nullable = true)
+    private Date accordAssurDate;
+    @Column(name = "xAccordAssurRef", length = 20, nullable = true)
+    private String accordAssurRef;
 
     @Column(name = "yAccordFactorRef", length = 20, nullable = true)
     private String factorRef;
@@ -36,36 +46,38 @@ public class Accord {
     @Column(name = "yAccordFactorDate", nullable = true)
     private Date factorDate;
 
-    @Column(name = "yAccordRevisionRisqueRef", length = 20, nullable = true)
-    private String revisionRisqueRef;
 
-    @ManyToOne
-    @JoinColumn(name = "yPmFactorAdherCode", nullable = true)
-    private PersonneMorale pmFactorAdher;
 
-    @ManyToOne
-    @JoinColumn(name = "yPpFactorAdherCode", nullable = true)
-    private PersonnePhysique ppFactorAdher;
+    @Column(name = "yPmFactorAdherCode", nullable = true)
+    private String pmFactorAdher;
 
-    @ManyToOne
-    @JoinColumn(name = "yPmFactorAchetCode", nullable = true)
-    private PersonneMorale pmFactorAchet;
+    @Column(name = "yPpFactorAdherCode", nullable = true)
+    private String ppFactorAdher;
 
-    @ManyToOne
-    @JoinColumn(name = "yPpFactorAchetCode", nullable = true)
-    private PersonnePhysique ppFactorAchet;
+    @Column(name = "yPmFactorAchetCode", nullable = true)
+    private String pmFactorAchet;
 
-    @Column(name = "yAccordDebDate", nullable = true)
+    @Column(name = "yPpFactorAchetCode", nullable = true)
+    private String ppFactorAchet;
+
+    @Column(name = "yAccordValiditeDebDate", nullable = true)
     private Date debDate;
 
-    @Column(name = "yAccordFinDate", nullable = true)
+    @Column(name = "yAccordValiditeFinDate", nullable = true)
     private Date finDate;
 
     @Column(name = "yAccordNbrJourPreavis", nullable = true)
     private Integer nbrJourPreavis;
 
-    @Column(name = "yAccordMontant", nullable = true, precision = 19, scale = 0)
-    private BigDecimal montant;
+    @Column(name = "yAccordRisqueMontant", nullable = true, precision = 19, scale = 0)
+    private BigDecimal risqueMontant;
+    @Column(name = "yAccordFactorMontant", nullable = true, precision = 19, scale = 0)
+    private BigDecimal factorMontant;
+    @Column(name = "yAccordAssurMontant", nullable = true, precision = 19, scale = 0)
+    private BigDecimal assurMontant;
+
+    @Column(name="xDeviseIdFk", nullable = true)
+    private Long deviseId;
 
     @Column(name="yAccordArchiver", nullable = true)
     private Boolean archiver= false;

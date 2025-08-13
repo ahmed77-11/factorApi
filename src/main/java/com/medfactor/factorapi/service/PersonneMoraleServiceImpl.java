@@ -88,5 +88,15 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
         }).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
     }
 
+    @Override
+    public List<PersonneMorale> getAllPMsByAdherAccord(boolean pmAdherBoolAccord) {
+        return repository.findAllByPmAdherBoolAccordAndPmAdherEnqueteEnCoursAndArchiver(pmAdherBoolAccord, false,false);
+    }
+
+    @Override
+    public List<PersonneMorale> getAllPMsByAchetAccord(boolean pmAchetBoolAccord) {
+        return repository.findAllByPmAchetBoolAccordAndPmAchetEnqueteEnCoursAndArchiver(pmAchetBoolAccord, false,false);
+    }
+
 
 }

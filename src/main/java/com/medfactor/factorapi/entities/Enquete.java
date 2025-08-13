@@ -42,6 +42,8 @@ public class Enquete {
 
     @Column(name = "yEnqueteAdherMontant", nullable = true, precision = 19, scale = 0)
     private BigDecimal adherMontant;
+    @Column(name="xDeviseIdFk", nullable = true)
+    private Long deviseId;
 
     @Column(name = "yEnqueteAdherNbrJourReglem", nullable = true)
     private Integer adherNbrJourReglem;
@@ -52,18 +54,10 @@ public class Enquete {
     @Column(name = "yEnqueteAdherTexte", nullable = true, length = 255)
     private String adherTexte;
 
-    @Column(name = "yEnqueteFactorDate", nullable = true)
-    private Date factorDate;
 
 
-    @Column(name = "yEnqueteFactorSort", length = 64,nullable = true)
-    private String factorSort;
-
-    @Column(name = "yEnqueteFactorMontant", precision = 19, scale = 0,nullable = true)
-    private BigDecimal factorMontant;
-
-    @Column(name = "yEnqueteFactorTexte", length = 255,nullable = true)
-    private String factorTexte;
+    @Column(name ="yIsEnqueteActive", nullable = true)
+    private Boolean isEnqueteActive = true;
 
     @Column(name="yEnqueteArchiver", nullable = true)
     private Boolean archiver = false;

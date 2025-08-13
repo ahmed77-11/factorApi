@@ -11,6 +11,7 @@ public interface EnqueteRepository extends JpaRepository<Enquete,Long> {
 
     Optional<Enquete> findByAdherRefAndArchiver(String adherRef, Boolean archiver);
     Optional<Enquete> findByIdAndArchiver(Long id, Boolean archiver);
+    List<Enquete> findAllByIsEnqueteActiveAndArchiver(Boolean isEnqueteActive, Boolean archiver);
 
     List<Enquete> findAllByArchiver(Boolean archiver);
 

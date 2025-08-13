@@ -12,6 +12,8 @@ public interface EnqueteService {
     Enquete getEnqueteByAdherRef(String ref);
 
     List<Enquete> getAllEnquetes();
+
+    List<Enquete> getAllActiveEnquetes();
     boolean deleteEnquete(Long id);
 
 }

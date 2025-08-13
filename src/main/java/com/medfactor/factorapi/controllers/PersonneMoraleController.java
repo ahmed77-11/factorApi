@@ -92,4 +92,13 @@ public class PersonneMoraleController {
 
     }
 
+    @GetMapping("/all-by-adher-sans-accord")
+    public List<PersonneMorale> getAllPMsByAdherAccord() {
+        return service.getAllPMsByAdherAccord(false);
+    }
+    @GetMapping("/all-by-achet-sans-accord")
+    public List<PersonneMorale> getAllPMsByAchetAccord() {
+        return service.getAllPMsByAchetAccord(false);
+    }
+
 }
