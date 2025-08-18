@@ -147,7 +147,7 @@ public class PersonneMorale implements Adherent {
     private boolean exemptFatca;
 
     @Column(name="yPmFactorAdherCode", nullable = true)
-    private String factorAdherCode;
+        private String factorAdherCode;
     @Column(name="yPmFactorAchetCode", nullable = true)
     private String factorAchetCode;
     @Column(name = "yPmFactorFournCode",nullable = true)

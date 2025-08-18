@@ -59,6 +59,16 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
                    if(!personneMorale.getIndviduRoles().contains(role)) {
                        personneMorale.getIndviduRoles().add(role);
                    }
+                   if(role.equals(IndviduRole.ACHETEUR)) {
+                       personneMorale.setFactorAchetCode(
+                               "ACHETEUR-PM" + personneMorale.getNumeroPieceIdentite() + "-" + System.currentTimeMillis()
+                       );
+                   }
+                     if(role.equals(IndviduRole.FOURNISSEUR)) {
+                          personneMorale.setFactorFournCode(
+                                 "FOURNISSEUR-PM" + personneMorale.getNumeroPieceIdentite() + "-" + System.currentTimeMillis()
+                          );
+                     }
                 });
             }
 
@@ -84,6 +94,16 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
     public PersonneMorale ajouterRoles(Long id, List<IndviduRole> roles) {
         return repository.findById(id).map(personne -> {
             personne.getIndviduRoles().addAll(roles);
+            if(roles.contains(IndviduRole.ACHETEUR)){
+                personne.setFactorAchetCode(
+                        "ACHETEUR-PM" + personne.getNumeroPieceIdentite() + "-" + System.currentTimeMillis()
+                );
+            }
+            if(roles.contains(IndviduRole.FOURNISSEUR)){
+                personne.setFactorFournCode(
+                        "FOURNISSEUR-PM" + personne.getNumeroPieceIdentite() + "-" + System.currentTimeMillis()
+                );
+            }
             return repository.save(personne);
         }).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
     }
