@@ -13,6 +13,7 @@ public interface PersonnePhysiqueService {
     List<PersonnePhysique> getAllPersonnes();
 
     Optional<PersonnePhysique> getPersonneById(Long id);
+    Optional<PersonnePhysique> getPersonneByFactorAchetCode(String factorAchetCode);
 
     Optional<PersonnePhysique> getPersonneByNumPieceIdentite(String numPieceIdentite);
 

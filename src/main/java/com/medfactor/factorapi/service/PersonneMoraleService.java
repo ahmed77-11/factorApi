@@ -11,6 +11,7 @@ public interface PersonneMoraleService {
     PersonneMorale createPM(PersonneMorale pm);
     List<PersonneMorale> getAllPM();
     Optional<PersonneMorale> getPMById(Long id);
+    Optional<PersonneMorale> getPMByFactorAchetCode(String factorAchetCode);
 
     Optional<PersonneMorale> getPMByNumPieceIdentite(String numPieceIdentite);
 

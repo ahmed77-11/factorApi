@@ -39,6 +39,11 @@ public class PersonneMoraleServiceImpl implements PersonneMoraleService{
     }
 
     @Override
+    public Optional<PersonneMorale> getPMByFactorAchetCode(String factorAchetCode) {
+        return repository.findAllByFactorAchetCodeAndArchiver(factorAchetCode, false);
+    }
+
+    @Override
     public Optional<PersonneMorale> getPMByNumPieceIdentite(String numPieceIdentite) {
         return repository.findByNumeroPieceIdentite(numPieceIdentite);
     }

@@ -42,6 +42,10 @@ public class PersonneMoraleController {
     public PersonneMorale getPersonneMoraleById(@PathVariable Long id) {
         return service.getPMById(id).orElseThrow(() -> new RuntimeException("Personne morale non trouvée"));
     }
+    @GetMapping("/get-pm-achet/{achetCode}")
+    public PersonneMorale getPersonneMoraleByAchetCode(@PathVariable("achetCode") String achetCode) {
+        return service.getPMByFactorAchetCode(achetCode).orElseThrow(() -> new RuntimeException("Personne morale non trouvée"));
+    }
     @PostMapping("/update-pm/{id}")
     public PersonneMorale updatePersonneMorale(@PathVariable Long id, @RequestBody PersonneMorale personneMorale, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -14,6 +14,9 @@ public interface PersonnePhysiqueRepository extends JpaRepository<PersonnePhysiq
     Optional<PersonnePhysique> findByNumeroPieceIdentite(String numeroPieceIdentite);
     List<PersonnePhysique> findAllByArchiver(boolean archiver);
     Optional<PersonnePhysique> findByIdAndArchiver(Long id, boolean archiver);
+    Optional<PersonnePhysique> findAllByFactorAchetCodeAndArchiver(
+            String factorAchetCode, boolean archiver
+    );
     List<PersonnePhysique> findByIndviduRolesContainsAndArchiver(IndviduRole role, boolean archiver);
     long countByIndviduRolesContaining(IndviduRole role);
 

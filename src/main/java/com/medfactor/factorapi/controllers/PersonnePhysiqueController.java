@@ -1,5 +1,6 @@
 package com.medfactor.factorapi.controllers;
 
+import com.medfactor.factorapi.entities.PersonneMorale;
 import com.medfactor.factorapi.entities.PersonnePhysique;
 import com.medfactor.factorapi.enums.IndviduRole;
 import com.medfactor.factorapi.service.PersonnePhysiqueService;
@@ -36,6 +37,14 @@ public class PersonnePhysiqueController {
     @GetMapping("/get-pp/{id}")
     public PersonnePhysique getPersonneById(@PathVariable Long id) {
         return service.getPersonneById(id).orElseThrow(() -> new RuntimeException("Personne non trouvée"));
+    }
+    @GetMapping("/get-pp-achet/{achetCode}")
+    public PersonnePhysique getPersonnePhysiqueByAchetCode(@PathVariable("achetCode") String achetCode) {
+        System.out.println("Achet Code: " + achetCode);
+        if (achetCode == null || achetCode.isEmpty()) {
+            throw new RuntimeException("Achet code ne peut pas être vide");
+        }
+        return service.getPersonneByFactorAchetCode(achetCode).orElseThrow(() -> new RuntimeException("Personne phyqique non trouvée"));
     }
     @PostMapping("/update-pp/{id}")
     public PersonnePhysique updatePersonne(@PathVariable Long id, @RequestBody PersonnePhysique personne, HttpServletRequest request) {

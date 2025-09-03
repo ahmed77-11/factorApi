@@ -32,6 +32,11 @@ public class PersonnePhysiqueServiceImpl implements PersonnePhysiqueService{
     }
 
     @Override
+    public Optional<PersonnePhysique> getPersonneByFactorAchetCode(String factorAchetCode) {
+        return repository.findAllByFactorAchetCodeAndArchiver(factorAchetCode, false);
+    }
+
+    @Override
     public Optional<PersonnePhysique> getPersonneByNumPieceIdentite(String numPieceIdentite) {
         return Optional.empty();
     }
